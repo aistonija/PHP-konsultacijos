@@ -1,3 +1,32 @@
+<?php
+
+$tree_height = rand(10, 30);
+
+for ($y = 1; $y <= $tree_height; $y++) {
+    for ($x = 1; $x <= $y; $x++) {
+        $decoration = rand(1, 30);
+
+        if ($decoration === 1) {
+            print "💜";
+        } elseif ($decoration === 2) {
+            print "💎";
+        } elseif ($decoration === 3) {
+            print "🌹";
+        } else {
+            print "︽";
+        }
+    }
+
+    print '</br>';
+}
+
+for ($y = 1; $y <= 2; $y++) {
+    for ($x = 1; $x <= 2; $x++) {
+        print "︽";
+    }
+}
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,16 +36,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        div {
-            width: 300px;
-            height: 25px;
-            margin: 10px auto;
+        body {
+            text-align: center;
         }
     </style>
 </head>
 <body>
-<?php for ($x = 1; $x <= 15; $x++): ?>
-    <div style="background: rgb( 0, 0, <?php print 255 * ($x / 15); ?>)"></div>
-<?php endfor; ?>
+
 </body>
 </html>
