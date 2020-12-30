@@ -1,24 +1,19 @@
 <?php
 
-$array = [
-    [1, 1, 1],
-    [0, 1, 0],
-    [1, 0, 0],
-];
+$suits = ['spades', 'diamonds', 'hearts', 'clubs'];
+$cards = ['A', 'K', 'Q', 'J', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
-$reversed_array = [];
+//1. Generate deck of 56 cards
+$deck = [];
 
-foreach ($array as $array_index => $row) {
-    foreach ($row as $row_index => $value) {
-        if ($value === 0) {
-            $reversed_array[$array_index][$row_index] = 1;
-        } else {
-            $reversed_array[$array_index][$row_index] = 0;
-        }
+foreach ($suits as $suit) {
+    foreach ($cards as $card) {
+        $deck[] = [
+            'suit' => $suit,
+            'card' => $card,
+        ];
     }
 }
-
-var_dump($array);
 
 ?>
 <!doctype html>
@@ -28,40 +23,17 @@ var_dump($array);
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <style>
-        table {
-            margin: 50px auto;
-            border: 1px solid #777777;
-            border-collapse: collapse;
-        }
-
-        table tr td {
-            width: 50px;
-            height: 50px;
-            text-align: center;
-            border: 1px solid #777777;
-        }
-    </style>
-    <title>Reverse Array Values</title>
+    <link rel="stylesheet" href="styles.css">
+    <title>Poker Cards</title>
 </head>
 <body>
-<table>
-    <?php foreach ($array as $row) : ?>
-        <tr>
-            <?php foreach ($row as $value) : ?>
-                <td><?php print $value; ?></td>
-            <?php endforeach; ?>
-        </tr>
+<div class="container">
+    <?php foreach ($deck as $card): ?>
+        <div class="card <?php print $card['suit'] ?>">
+            <div class="name"><?php print $card['card'] ?></div>
+        </div>
     <?php endforeach; ?>
-</table>
-<table>
-    <?php foreach ($reversed_array as $row) : ?>
-        <tr>
-            <?php foreach ($row as $value) : ?>
-                <td><?php print $value; ?></td>
-            <?php endforeach; ?>
-        </tr>
-    <?php endforeach; ?>
-</table>
+</div>
 </body>
 </html>
+
