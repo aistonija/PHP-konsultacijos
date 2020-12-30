@@ -15,6 +15,19 @@ foreach ($suits as $suit) {
     }
 }
 
+//2. Cards on table
+$cards_on_table = [];
+
+for ($x = 1; $x <= 5; $x++) {
+    $rand_index = rand(0, count($deck) - 1);
+    $cards_on_table[] = $deck[$rand_index];
+
+    array_splice($deck, $rand_index, 1);
+}
+
+var_dump($cards_on_table);
+
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -28,7 +41,7 @@ foreach ($suits as $suit) {
 </head>
 <body>
 <div class="container">
-    <?php foreach ($deck as $card): ?>
+    <?php foreach ($cards_on_table as $card): ?>
         <div class="card <?php print $card['suit'] ?>">
             <div class="name"><?php print $card['card'] ?></div>
         </div>
