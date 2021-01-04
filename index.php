@@ -1,43 +1,18 @@
 <?php
 
-//1.
-$hurdle_heights = [rand(1, 10), rand(1, 10), rand(1, 10), rand(1, 10), rand(1, 10)];
+$two_digit_number = rand(11, 99);
 
-//2.
-
-function generate_hurdles($hurdle_count, $start, $finish)
+function larger_swap($num)
 {
-    $array = [];
+    $reversed_num = intval(strrev(strval($num)));
 
-    for ($x = 0; $x < $hurdle_count; $x++) {
-        $diapason = rand($start, $finish);
-        $array[$x] = $diapason;
-    }
+    return $reversed_num > $num || $reversed_num === $num;
 
-    return $array;
-}
-
-$hurdles = generate_hurdles(5, 1, 10);
-
-
-$jump_height = rand(5, 12);
-
-
-function hurdle_jump($array, $number)
-{
-
-    foreach ($array as $hurdle) {
-        if ($hurdle > $number) {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 
-var_dump($hurdles);
-var_dump($jump_height);
-var_dump(hurdle_jump($hurdles, $jump_height));
+var_dump($two_digit_number);
 
+var_dump(intval(strrev(strval($two_digit_number))));
 
+var_dump(larger_swap($two_digit_number));
