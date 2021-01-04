@@ -1,18 +1,15 @@
 <?php
 
-$two_digit_number = rand(11, 99);
+$array = [80, 29, 4, -95, -24, 85, 1, 2, 10, 50, 5];
 
-function larger_swap($num)
+function sort_regular(&$array)
 {
-    $reversed_num = intval(strrev(strval($num)));
-
-    return $reversed_num > $num || $reversed_num === $num;
-
+    sort($array);
 }
 
 
-var_dump($two_digit_number);
+var_dump($array);
 
-var_dump(intval(strrev(strval($two_digit_number))));
+sort_regular($array);
 
-var_dump(larger_swap($two_digit_number));
+var_dump($array);
