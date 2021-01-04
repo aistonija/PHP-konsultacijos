@@ -1,15 +1,33 @@
 <?php
 
-$array = [80, 29, 4, -95, -24, 85, 1, 2, 10, 50, 5];
-
-function sort_regular(&$array)
+function generate_array($counter, $start, $finish)
 {
-    sort($array);
+    $array = [];
+
+    for ($x = 0; $x < $counter; $x++) {
+        $rand_num = rand($start, $finish);
+
+        $array[$x] = $rand_num;
+    }
+
+    return $array;
+}
+
+$numbers = generate_array(6, 1, 3000);
+
+
+function eliminate_odd_numbers(&$array)
+{
+    foreach ($array as $key => &$number) {
+        if ($number % 2 === 1) {
+            array_splice($array, $key, 1);
+        }
+    }
 }
 
 
-var_dump($array);
+var_dump($numbers);
 
-sort_regular($array);
+eliminate_odd_numbers($numbers);
 
-var_dump($array);
+var_dump($numbers);
