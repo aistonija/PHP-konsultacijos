@@ -1,29 +1,16 @@
 <?php
 
-$string = 'labas rytas lietuva';
-var_dump($string);
+# 7. Sorting Integer Descending (using reference)
 
+$high_num = rand(100000, 100000000);
 
-function alternatingCaps(&$string)
+function sortDescending(&$number)
 {
-    # pasiverciu stringa i masyva
-    $array = str_split($string);
-    var_dump($array);
-    $count = 0;
-
-    foreach ($array as &$char) {
-        if ($count % 2 == 0 && $char != ' ') {
-            $char = strtoupper($char);
-            $count++;
-        } elseif ($char != ' ') {
-            $char = strtolower($char);
-            $count++;
-        }
-    }
-
-    $string = implode($array);
+    $array = str_split($number);
+    rsort($array);
+    $number = intval(implode($array));
 }
 
-
-alternatingCaps($string);
-var_dump($string);
+var_dump($high_num);
+sortDescending($high_num);
+var_dump($high_num);
