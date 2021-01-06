@@ -1,33 +1,21 @@
 <?php
 
-function generate_array($counter, $start, $finish)
+$numbers_array = [838, 121, 344, 557, 768, 878, 987, 345, 565];
+
+
+function palindromes_only(&$array)
 {
-    $array = [];
-
-    for ($x = 0; $x < $counter; $x++) {
-        $rand_num = rand($start, $finish);
-
-        $array[$x] = $rand_num;
-    }
-
-    return $array;
-}
-
-$numbers = generate_array(6, 1, 3000);
-
-
-function eliminate_odd_numbers(&$array)
-{
-    foreach ($array as $key => &$number) {
-        if ($number % 2 === 1) {
+    foreach ($array as $key => $number) {
+        if (strval($number) !== strrev(strval($number))) {
             array_splice($array, $key, 1);
         }
     }
+    unset($number);
 }
 
 
-var_dump($numbers);
+var_dump($numbers_array);
 
-eliminate_odd_numbers($numbers);
+palindromes_only($numbers_array);
 
-var_dump($numbers);
+var_dump($numbers_array);
