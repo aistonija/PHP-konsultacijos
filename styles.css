@@ -1,0 +1,163 @@
+
+#block {
+    width: 500px;
+    margin: 50px auto;
+    background-color: white;
+    box-shadow: 0 2px 4px 2px lightgray;
+}
+
+header {
+    background: orange;
+    height: 100px;
+    text-align: center;
+    padding-top: 20px;
+}
+
+header > h1 {
+    color: white;
+    text-transform: uppercase;
+    font-size: x-large;
+}
+
+.form-block {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form {
+    padding: 40px 0;
+    width: 100%;
+}
+
+input {
+    margin-bottom: 20px;
+}
+
+.name-input input,
+select {
+    height: 50px;
+    padding: 10px;
+}
+
+.name-input input {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid lightgray;
+}
+
+.email-phone {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.email-phone input {
+    margin-top: 8px;
+    box-sizing: border-box;
+}
+
+.form-block h4 {
+    text-transform: uppercase;
+    font-size: smaller;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+
+input[type=radio] {
+    margin: 5px;
+    width: 20px;
+}
+
+.radio-center {
+    display: flex;
+    align-items: baseline;
+}
+
+.help-radio {
+    margin-bottom: 30px;
+}
+
+.help-radio label {
+    font-size: smaller;
+}
+
+select {
+    box-sizing: border-box;
+    width: 100%;
+    border-radius: 0;
+    border: 1px solid lightgray;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    font-size: smaller;
+    color: rgb(53, 51, 51);
+}
+
+textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position-x: 15px;
+    background-position-y: 15px;
+    border: 1px solid lightgray;
+}
+
+.btn {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.btn button {
+    font-size: smaller;
+    text-transform: uppercase;
+    color: white;
+    padding: 12px 60px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(255, 165, 0);
+    box-shadow: 0 2px 4px 2px #cfcfcf;
+}
+
+::placeholder {
+    color: lightgrey;
+}
+
+.form-block input[name=user-name],
+.form-block input[type=email],
+.form-block input[type=tel] {
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position-x: 10px;
+    border: 1px solid lightgray;
+}
+
+.message-block {
+    padding: 20px;
+    width: 600px;
+    margin: 50px auto;
+    background-color: rgb(255, 165, 0);
+    color: white;
+    box-shadow: 0px 2px 4px 2px lightgray;
+}
+
+.message-info {
+    background-color: white;
+    padding: 10px;
+    color: #2b2b2b;
+}
+
+.error {
+    background-color: rgba(255, 0, 0, 0.1);
+    color: darkred;
+    padding: 10px;
+    margin: 20px 0;
+    text-align: center;
+}
+
