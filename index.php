@@ -1,32 +1,55 @@
 <?php
 
-# 8. Sum of Missing Numbers
+# 9. Multiply String Characters
 
-# 1st example -
-$numbers = [1, 3, 5, 7, 10];
-
-# 2nd example -
-$numbers2 = [10, 20, 30, 40, 50, 60];
-
-function sumOfMissingNumbers($array)
+function multiplyCharacters($string, $multiplier)
 {
-    # 1. reikes maziausio skaiciaus;
-    # 2. reikes didziausio skaiciaus;
-    # 3. reikes fiksuoti skaicius, kuriu nera masyve;
+    $characters = str_split($string);
+    $result = '';
 
-    $lowest = min($array);
-    $highest = max($array);
-    $missing_numbers = [];
-    $sum = 0;
-
-    for ($x = $lowest; $x < $highest; $x++) {
-        if (!in_array($x, $array)) {
-            $missing_numbers[$x] = $x;
-            $sum += $x;
+    foreach ($characters as $char) {
+        if ($char === ' ') {
+            $result .= ' ';
+        } else {
+            $result .= str_repeat($char, $multiplier);
         }
     }
-    var_dump($missing_numbers);
-    return $sum;
+
+    return $result;
 }
 
-var_dump(sumOfMissingNumbers($numbers2));
+
+var_dump($_POST);
+
+if (isset($_POST['submit'])) {
+    $output = multiplyCharacters($_POST['string'], $_POST['multiplier']);
+} else {
+    $output = 'You haven\'t entered anything';
+}
+
+?>
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body>
+    <form action="<?php print $_SERVER['PHP_SELF'] ?>" method="post">
+        <div>
+            <label>Enter any word</label>
+            <input type="text" name="string">
+        </div>
+        <div>
+            <label>Enter any number</label>
+            <input type="number" name="multiplier">
+        </div>
+        <button type="submit" name="submit"> SUBMIT</button>
+    </form>
+    <div><?php print $output ?></div>
+    </body>
+    </html>
+
