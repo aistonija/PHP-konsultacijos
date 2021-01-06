@@ -1,21 +1,26 @@
 <?php
 
-$numbers_array = [838, 121, 344, 557, 768, 878, 987, 345, 565];
+# https://www.elated.com/php-references/
 
+$myNum = 5;
+print 'My number is: ' . $myNum;
 
-function palindromes_only(&$array)
+function addFive($num)
 {
-    foreach ($array as $key => $number) {
-        if (strval($number) !== strrev(strval($number))) {
-            array_splice($array, $key, 1);
-        }
-    }
-    unset($number);
+    return $num += 5;
 }
 
+var_dump(addFive($myNum));
 
-var_dump($numbers_array);
+print 'My number after calling function addFive(): ';
+var_dump($myNum);
 
-palindromes_only($numbers_array);
 
-var_dump($numbers_array);
+function addTen(&$num)
+{
+    return $num += 10;
+}
+
+var_dump(addTen($myNum));
+print 'My number after calling function addTen(): ';
+var_dump($myNum);
