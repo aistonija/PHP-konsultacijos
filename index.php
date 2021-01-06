@@ -1,26 +1,29 @@
 <?php
 
-# https://www.elated.com/php-references/
+$string = 'labas rytas lietuva';
+var_dump($string);
 
-$myNum = 5;
-print 'My number is: ' . $myNum;
 
-function addFive($num)
+function alternatingCaps(&$string)
 {
-    return $num += 5;
+    # pasiverciu stringa i masyva
+    $array = str_split($string);
+    var_dump($array);
+    $count = 0;
+
+    foreach ($array as &$char) {
+        if ($count % 2 == 0 && $char != ' ') {
+            $char = strtoupper($char);
+            $count++;
+        } elseif ($char != ' ') {
+            $char = strtolower($char);
+            $count++;
+        }
+    }
+
+    $string = implode($array);
 }
 
-var_dump(addFive($myNum));
 
-print 'My number after calling function addFive(): ';
-var_dump($myNum);
-
-
-function addTen(&$num)
-{
-    return $num += 10;
-}
-
-var_dump(addTen($myNum));
-print 'My number after calling function addTen(): ';
-var_dump($myNum);
+alternatingCaps($string);
+var_dump($string);
