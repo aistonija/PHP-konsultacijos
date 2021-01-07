@@ -31,7 +31,7 @@ if (!empty($_POST)) {
             $errors[$key] = 'Įveskite teisingą el. pašto adresą';
             $show_form = true;
         } elseif ($key === 'phone' && !validate_min_symbols($input_value, 9)) {
-            $errors[$key] = 'Įveskite teisingą el. pašto adresą';
+            $errors[$key] = 'Įveskite ne daugiau kaip 9 simbolius';
             $show_form = true;
         } elseif ($key === 'message' && !validate_max_symbols($input_value, 10)) {
             $errors[$key] = 'Laukelis negali viršyti daugiau nei 10 simbolių';
