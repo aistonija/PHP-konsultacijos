@@ -30,3 +30,20 @@ function validate_max_symbols($field_value, $max_symbols): bool
 
     return true;
 }
+
+
+/**
+ * Checks if field value has enough symbols
+ *
+ * @param $field_value
+ * @param $min_symbols
+ * @return bool
+ */
+function validate_min_symbols($field_value, $min_symbols): bool
+{
+    if (strlen($field_value) < $min_symbols) {
+        return false;
+    }
+
+    return true;
+}
