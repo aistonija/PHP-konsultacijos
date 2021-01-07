@@ -1,68 +1,38 @@
 <?php
 
 /**
- * clean and trim input value
+ * Check if user with provided details ir already in array
  *
- * @param $field_value
- * @return string
+ * @param $array
+ * @param $email
+ * @return bool
  */
-function clean_input(string $field_value): string
+function validate_user_email($array, $email): bool
 {
-    return trim(htmlspecialchars($field_value));
-}
-
-/**
- * Determines the selection from options menu
- *
- * @param $subject
- * @return string
- */
-function get_subject($subject)
-{
-    $selected_subject = '';
-    switch ($subject) {
-        case 1:
-        {
-            $selected_subject = 'Skundas';
-            break;
-        }
-        case 2:
-        {
-            $selected_subject = 'Pasiūlymas';
-            break;
+    foreach ($array as $user) {
+        if ($email === $user['email']) {
+            return true;
         }
     }
 
-    return $selected_subject;
+    return false;
 }
 
 /**
- * Determines the selection from radio inputs
+ * Check if user with provided details ir already in array
  *
- * @param $department
- * @return string
+ * @param $array
+ * @param $email
+ * @param $password
+ * @return bool
  */
-function get_department($department)
+function validate_user_password($array, $email, $password): bool
 {
-    $selected_department = '';
-    switch ($department) {
-        case 'sales':
-        {
-            $selected_department = 'Pardavimų Skyrius';
-            break;
-        }
-        case 'management':
-        {
-            $selected_department = 'Administracija';
-            break;
-        }
-        case 'support':
-        {
-            $selected_department = 'Klientų aptarnavimo skyrius';
-            break;
+    foreach ($array as $user) {
+        if ($email === $user['email'] && $password === $user['password']) {
+            return true;
         }
     }
 
-    return $selected_department;
+    return false;
 }
-
