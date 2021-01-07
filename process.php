@@ -1,25 +1,22 @@
 <?php
 
+require_once 'functions.php';
 require_once 'users.php';
-require_once('functions.php');
 
-if (!empty($_POST)) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+$message = '';
+$message_class = '';
 
-    $message = '';
-    $message_class = '';
-    if (!validate_user_email($users, $email)) {
-        $message = 'Toks el. pašto adresas neegzistuoja';
-        $message_class = 'error';
-    } elseif (!validate_user_password($users, $email, $password)) {
-        $message = 'Įvedėte neteisingą slaptažodį';
-        $message_class = 'error';
-    } elseif (validate_user_email($users, $email) && validate_user_password($users, $email, $password)) {
-        $message = 'nice work dude!';
+if (isset($_POST['login'])) {
+    $pass1 = $_POST['password'];
+    $pass2 = $_POST['password2'];
+
+    $pass_valid = pass_match($pass1, $pass2);
+    if ($pass_valid) {
+        $message = 'Slaptažodžiai sutapo, sveikiname užsiregistravus';
         $message_class = 'message';
-
-        $_SESSION['email'] = $email;
-        $_SESSION['password'] = $password;
+    } else {
+        $message = 'Slaptažodžiai NESUTAMPA';
+        $message_class = 'error';
     }
+
 }

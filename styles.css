@@ -32,9 +32,14 @@ form button {
 }
 
 .message {
+    margin-top: 20px;
     color: darkgreen;
+    padding: 10px;
+    background-color: rgba(0, 255, 0, 0.2);
 }
 
 .error {
     color: darkred;
+    background-color: rgba(255, 0, 0, 0.2);
+    padding: 10px;
 }

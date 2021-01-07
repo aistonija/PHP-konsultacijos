@@ -1,38 +1,14 @@
 <?php
 
 /**
- * Check if user with provided details ir already in array
+ * Check if passwords match
  *
- * @param $array
- * @param $email
+ * @param $pass1
+ * @param $pass2
  * @return bool
  */
-function validate_user_email($array, $email): bool
+function pass_match($pass1, $pass2)
 {
-    foreach ($array as $user) {
-        if ($email === $user['email']) {
-            return true;
-        }
-    }
-
-    return false;
+    return $pass1 === $pass2;
 }
 
-/**
- * Check if user with provided details ir already in array
- *
- * @param $array
- * @param $email
- * @param $password
- * @return bool
- */
-function validate_user_password($array, $email, $password): bool
-{
-    foreach ($array as $user) {
-        if ($email === $user['email'] && $password === $user['password']) {
-            return true;
-        }
-    }
-
-    return false;
-}
