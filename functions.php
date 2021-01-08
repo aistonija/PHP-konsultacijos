@@ -1,34 +1,58 @@
 <?php
 
 /**
- * Check if passwords match
+ * Check if user with provided details ir already in array
  *
- * @param $pass1
- * @param $pass2
- * @return bool
- */
-function pass_match($pass1, $pass2)
-{
-    return $pass1 === $pass2;
-}
-
-/**
- * Check if user exists in array, and add new one in case of false
- *
- * @param $users_array
- * @param $temporary_array
+ * @param $array
  * @param $email
  * @return bool
  */
-function user_exists(&$users_array, $temporary_array, $email)
+function validate_user_email($array, $email): bool
 {
-    foreach ($users_array as $user) {
-        if ($user['email'] === $email) {
-            return false;
+    foreach ($array as $user) {
+        if ($email === $user['email']) {
+            return true;
         }
     }
 
-    $users_array[] = $temporary_array;
+    return false;
+}
 
-    return true;
+/**
+ * Check if user with provided details ir already in array
+ *
+ * @param $array
+ * @param $email
+ * @param $password
+ * @return bool
+ */
+function validate_user_password($array, $email, $password): bool
+{
+    foreach ($array as $user) {
+        if ($email === $user['email'] && $password === $user['password']) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Check if user is logged in
+ */
+function is_logged_in()
+{
+    if (time() > ($_SESSION['time'] + 10)) {
+        logout();
+    }
+}
+
+
+/**
+ * Logout user
+ */
+function logout()
+{
+    session_destroy();
+    header('Location: index.php');
 }
