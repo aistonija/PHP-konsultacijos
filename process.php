@@ -1,25 +1,38 @@
 <?php
 
+require_once 'functions.php';
 require_once 'users.php';
-require_once('functions.php');
+
+$message = '';
+$message_class = '';
+
+$temporary_users = [];
 
 if (!empty($_POST)) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-
-    $message = '';
-    $message_class = '';
-    if (!validate_user_email($users, $email)) {
-        $message = 'Toks el. pašto adresas neegzistuoja';
-        $message_class = 'error';
-    } elseif (!validate_user_password($users, $email, $password)) {
-        $message = 'Įvedėte neteisingą slaptažodį';
-        $message_class = 'error';
-    } elseif (validate_user_email($users, $email) && validate_user_password($users, $email, $password)) {
-        $_SESSION['email'] = $email;
-        $_SESSION['password'] = $password;
-        $_SESSION['time'] = time();
-
-        header('Location: home.php');
-    }
+    $temporary_users['email'] = $_POST['email'];
+    $temporary_users['password'] = $_POST['password'];
 }
+
+if (isset($_POST['login'])) {
+    $pass1 = $_POST['password'];
+    $pass2 = $_POST['password2'];
+
+    $pass_valid = pass_match($pass1, $pass2);
+    $is_new_user = user_exists($users, $temporary_users, $_POST['email']);
+
+    if (!$is_new_user) {
+        $message = 'Vartotojas ' . $_POST['email'] . ' jau egzistuoja!';
+        $message_class = 'error';
+
+    } elseif (!$pass_valid) {
+        $message = 'Slaptažodžiai NESUTAMPA';
+        $message_class = 'error';
+
+    } else {
+        $message = 'Sveikiname užsiregistravus!';
+        $message_class = 'message';
+    }
+
+}
+
+var_dump($users);

@@ -1,5 +1,7 @@
 <?php
 
+require_once('functions.php');
+
 $users = [
     [
         'email' => 'kumele@gmail.com',
