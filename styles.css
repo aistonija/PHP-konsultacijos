@@ -1,3 +1,37 @@
+/* ------ GLOBAL STYLES --------*/
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* ------ NAVIGATION --------*/
+
+nav {
+    height: 70px;
+    background-color: #292929;
+    margin-bottom: 50px;
+    padding-top: 25px;
+    box-sizing: border-box;
+}
+
+nav ul {
+    margin: 0;
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+/* ------ FORM --------*/
+
 form {
     width: 500px;
     margin: 0 auto;
@@ -32,14 +66,12 @@ form button {
 }
 
 .message {
-    margin-top: 20px;
     color: darkgreen;
-    padding: 10px;
     background-color: rgba(0, 255, 0, 0.2);
 }
 
 .error {
     color: darkred;
     background-color: rgba(255, 0, 0, 0.2);
-    padding: 10px;
 }
+
