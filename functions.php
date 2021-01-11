@@ -39,10 +39,12 @@ function validate_user_password($array, $email, $password): bool
 
 /**
  * Check if user is logged in
+ *
+ * @return bool
  */
-function is_logged_in()
+function is_logged_in(): bool
 {
-    return !empty($_SESSION) && time() < ($_SESSION['expired']);
+    return !empty($_SESSION) && time() < ($_SESSION['time'] + 10);
 }
 
 

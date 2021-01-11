@@ -18,8 +18,7 @@ if (!empty($_POST)) {
     } elseif (validate_user_email($users, $email) && validate_user_password($users, $email, $password)) {
         $_SESSION['email'] = $email;
         $_SESSION['password'] = $password;
-//        $_SESSION['time'] = time();
-        $_SESSION['expired'] = time() + 10;
+        $_SESSION['time'] = time();
 
         header('Location: home.php');
     }
