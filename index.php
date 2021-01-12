@@ -1,9 +1,3 @@
-<?php
-session_start();
-require_once('process.php');
-require_once('users.php');
-
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,26 +5,38 @@ require_once('users.php');
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="styles.css">
-    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+    <title>Gallery</title>
 </head>
 <body>
-<?php include_once 'includes/nav.php'; ?>
-<form class="form" method="POST">
-    <div class="input-row">
-        <label for="email">El. Paštas</label>
-        <input type="email" id="email" name="email" value="<?php print $_POST['email'] ?? null; ?>">
-    </div>
-    <div class="input-row">
-        <label for="password">Slaptažodis</label>
-        <input type="password" id="password" name="password" value="<?php print $_POST['password'] ?? null; ?>">
-    </div>
-    <button type="submit" name="submit" value="submit">Prisijungti</button>
+<div id="gallery"></div>
+<div>
+    <button id="loadButton">Load More</button>
+</div>
+<script>
+    let gallery = document.getElementById('gallery');
+    let loadButton = document.getElementById('loadButton');
 
-    <?php if (isset($message)): ?>
-        <div class="<?php print $message_class; ?>"><?php print $message ?></div>
-    <?php endif; ?>
-</form>
+    function addItem(src) {
+        // <img src="https://picsum.photos/200/300?random=123">
+        let element = document.createElement("img")
+        element.src = src;
+        gallery.append(element)
+    }
 
+    function loadMore() {
+        fetch('more.php')
+            .then((response) => {
+                return response.json()
+            })
+            .then((srcArray) => {
+                srcArray.map(src => addItem(src))
+            })
+    }
+
+    loadMore();
+
+    loadButton.addEventListener('click', loadMore);
+</script>
 </body>
 </html>
