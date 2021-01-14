@@ -8,7 +8,14 @@ $children = [
     new Child('Arūnė', 'girl', 6)
 ];
 
+$children_array = [];
+
+foreach ($children as $child) {
+    $children_array[] = $child->objectToArray();
+}
+
 var_dump($children);
+var_dump($children_array);
 
 ?>
 <!doctype html>
@@ -30,11 +37,11 @@ var_dump($children);
 </head>
 
 <body>
-    <?php foreach ($children as $child) : ?>
+    <?php foreach ($children_array as $child) : ?>
     <div class="box">
-        <h3>Name of the child is: <?php echo $child->getName() ?></h3>
-        <h4>Age: <?php echo $child->getAge() ?></h4>
-        <p><?php echo 'School year is ' . $child->whichGrade(); ?></p>
+        <h3>Name of the child is: <?php echo $child['name'] ?></h3>
+        <h4>Age: <?php echo $child['age'] ?></h4>
+        <p><?php echo 'School year is ' . $child['school']; ?></p>
     </div>
     <?php endforeach; ?>
 </body>
