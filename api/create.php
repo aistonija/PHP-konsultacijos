@@ -1,19 +1,32 @@
 <?php
 
 include '../classes/dbh.class.php';
+include '../classes/validation.class.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+$result = [
+    'status' => 'OK'
+];
 
-    if (empty($_POST['movie_img'])) {
-        header('HTTP/1.0 500 ' . 'Neinvedei nuotraukos');
-        exit;
+$validation = new Validation();
+
+if ($validation->RequestMethod('POST')) {
+    $sanitized_values = [];
+    foreach ($_POST as $key => $input_value) {
+        $sanitized_values[$key] = $validation->sanitizeValue($key);
     }
 
-    $db = new Dbh();
-    $db->insertMovie(
-        $_POST['movie_img'],
-        $_POST['movie_title'],
-        $_POST['movie_year'],
-        $_POST['movie_genre']
-    );
+    if ($validation->getErrors()) {
+        $result['status'] = 'FAIL';
+        $result['errors'] = $validation->getErrors();
+    } else {
+        $db = new Dbh();
+        $db->insertMovie(
+            $sanitized_values['movie_img'],
+            $sanitized_values['movie_title'],
+            $sanitized_values['movie_year'],
+            $sanitized_values['movie_genre']
+        );
+    }
 }
+
+echo json_encode($result);

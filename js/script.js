@@ -9,15 +9,25 @@ if (form) {
       body: form_data,
     })
       .then((response) => {
-        if (!response.ok) {
-          showMessage("text-danger", response.statusText);
+        return response.json();
+      })
+      .then((data) => {
+        document.querySelectorAll(".movie_error").forEach((value) => {
+          value.textContent = "";
+        });
+        if (data.status === "OK") {
+          showMessage("text-success", "Operation was successful");
         } else {
-          showMessage("text-primary", "Movie added successfully!");
+          for (let key in data.errors) {
+            let value = data.errors[key];
+            let error_element = document.getElementById(`error_${key}`);
+            if (error_element) {
+              error_element.textContent = value;
+            }
+          }
         }
       })
-      .catch((err) => {
-        showMessage("text-danger", err);
-      });
+      .catch((error) => showMessage("text-danger", error));
   };
 
   form.addEventListener("submit", (event) => {

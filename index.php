@@ -2,8 +2,11 @@
 <div class="container mt-5">
     <form class="d-flex flex-column w-50 m-auto" method="POST">
         <input class="mb-2 p-2" type="url" name="movie_img" placeholder="Provide Movie Image as URL" />
+        <div id="error_movie_img" class="movie_error text-danger"></div>
         <input class="mb-2 p-2" type="text" name="movie_title" placeholder="Enter Movie Name" />
+        <div id="error_movie_title" class="movie_error text-danger"></div>
         <input class="mb-2 p-2" type="text" name="movie_year" placeholder="Enter Year Movie was released" />
+        <div id="error_movie_year" class="movie_error text-danger"></div>
 
         <label for="genre">Check one Genre</label>
         <div>
