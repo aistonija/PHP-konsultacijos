@@ -27,7 +27,9 @@ if (form) {
           }
         }
       })
-      .catch((error) => showMessage("text-danger", error));
+      .catch((err) => {
+        showMessage("text-danger", err);
+      });
   };
 
   form.addEventListener("submit", (event) => {
@@ -49,12 +51,36 @@ const movies_container = document.querySelector(".movies");
 
 if (movies_container) {
   const load_movies = () => {
+    movies_container.innerHTML = "";
+
+    const delete_movie = (movie) => {
+      const form_data = new FormData();
+      form_data.append("id", movie.id);
+      fetch("api/delete.php", {
+        method: "POST",
+        body: form_data,
+      })
+        .then(() => {
+          load_movies();
+          alert("Movie Deleted");
+        })
+        .catch((err) => {
+          showMessage("text-danger", err);
+        });
+    };
+
+    const edit_movie = (movie) => {
+      window.location = "editPost.php?id=" + movie.id;
+    };
+
     const create_movie_table = (movie) => {
       const div = document.createElement("div");
       const img = document.createElement("img");
       const title = document.createElement("h2");
       const year = document.createElement("h5");
       const genre = document.createElement("h5");
+      const editbtn = document.createElement("button");
+      const deletebtn = document.createElement("button");
       img.src = movie.movie_img;
       img.classList.add("image", "w-25");
       title.textContent = movie.movie_title;
@@ -62,7 +88,17 @@ if (movies_container) {
       year.textContent = movie.movie_year;
       genre.textContent = movie.movie_genre;
 
-      div.append(img, title, year, genre);
+      editbtn.textContent = "Edit";
+      editbtn.addEventListener("click", () => {
+        edit_movie(movie);
+      });
+
+      deletebtn.textContent = "Delete";
+      deletebtn.addEventListener("click", () => {
+        delete_movie(movie);
+      });
+
+      div.append(img, title, year, genre, editbtn, deletebtn);
       div.classList.add("movie");
 
       return div;
