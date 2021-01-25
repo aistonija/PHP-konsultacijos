@@ -14,6 +14,8 @@ abstract class Validator
     abstract public function getErrorText(): string;
 }
 
+
+
 class NumberValidator extends Validator
 {
     public function validate($value): bool
@@ -26,6 +28,8 @@ class NumberValidator extends Validator
         return 'turi but numeriuks, seniuk';
     }
 }
+
+
 
 class YearValidator extends NumberValidator
 {
