@@ -1,31 +1,25 @@
 <?php
-// Base controller
-// Load models and views
+//Base Controller
+//It loads models and views
 
 class Controller
 {
-    // Load model 
+    // Load Model
     public function model($model)
     {
-        if (file_exists('../app/models/' . $model . '.php')) {
-            // require model file
-            require_once '../app/models/' . $model . '.php';
+        // require model file
+        require_once '../app/models/' . $model . '.php';
 
-            //Make object of that class
-            return new $model();
-        } else {
-            die('model does not exist');
-        }
+        // Instantiate the model
+        return new $model();
     }
 
     // Load View
     public function view($view, $data = [])
     {
-        // check if view exist 
-        if (file_exists("../app/views/$view.php")) {
-            // if view exist we require it 
-            // we load this view
-            require_once "../app/views/$view.php";
+        //Check for the view file
+        if (file_exists('../app/views/' . $view . '.php')) {
+            require_once '../app/views/' . $view . '.php';
         } else {
             die('View does not exist');
         }

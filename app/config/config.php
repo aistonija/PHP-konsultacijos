@@ -1,18 +1,18 @@
 <?php
-// DB Params
+// DB PARAMS
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME', 'game');
+define('DB_NAME', 'pixels');
 
-// aprrot wil be used when we need absloute path to our app dir
-define('APPROOT', dirname(__DIR__));
+//APP ROOT
+define('ROOT', dirname(__DIR__));
 
-// URL ROOT will be the path in the url
+//URL ROOT
 define('URLROOT', 'http://konsult-mvc.lt');
 
-// Site name 
-define('SITENAME', 'Lucky 777');
+// Site name
+define('SITENAME', 'Pixelotron 3000');
 
-// app version
-define("APPVERSION", "1.0.0");
+//App Version
+define('APPVERSION', '1.0.0');

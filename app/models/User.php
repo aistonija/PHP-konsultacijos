@@ -1,6 +1,4 @@
 <?php
-// User class 
-// for getting and setting database values 
 
 class User
 {
@@ -8,18 +6,20 @@ class User
 
     public function __construct()
     {
-        $this->db = new Database;
+        $this->db = new Database();
     }
 
+    // Register User
     public function register($data)
     {
-        $this->db->query('INSERT INTO users (nickname, password) VALUES(:nickname, :password)');
-
-        //Bind Values
-        $this->db->bind(':nickname', $data['nickname']);
+        $this->db->query('INSERT INTO users (first_name, last_name, email, password) VALUES(:first_name, :last_name, :email, :password)');
+        // Bind values
+        $this->db->bind(':first_name', $data['first_name']);
+        $this->db->bind(':last_name', $data['last_name']);
+        $this->db->bind(':email', $data['email']);
         $this->db->bind(':password', $data['password']);
 
-        //Execute
+        // Execute
         if ($this->db->execute()) {
             return true;
         } else {
@@ -27,12 +27,12 @@ class User
         }
     }
 
-    public function login($nickname, $password)
+    public function login($email, $password)
     {
-        $this->db->query('SELECT * FROM users WHERE nickname = :nickname');
-        $this->db->bind(':nickname', $nickname);
+        $this->db->query('SELECT * FROM users WHERE email = :email');
+        $this->db->bind(':email', $email);
 
-        $row = $this->db->singleRow();
+        $row = $this->db->single();
 
         $hashed_password = $row['password'];
         if (password_verify($password, $hashed_password)) {
@@ -42,14 +42,13 @@ class User
         }
     }
 
-    public function findUserByNickname($nickname)
+    // Find User by Email
+    public function findUserByEmail($email)
     {
-        $this->db->query('SELECT * FROM users WHERE nickname = :nickname');
-
+        $this->db->query('SELECT * FROM users WHERE email = :email');
         // Bind values
-        $this->db->bind(':nickname', $nickname);
-
-        $row = $this->db->singleRow();
+        $this->db->bind(':email', $email);
+        $row = $this->db->single();
 
         // Check row
         if ($this->db->rowCount() > 0) {
@@ -59,12 +58,13 @@ class User
         }
     }
 
+    // Find User by Email
     public function getUserById($id)
     {
         $this->db->query('SELECT * FROM users WHERE id = :id');
         // Bind values
         $this->db->bind(':id', $id);
-        $row = $this->db->singleRow();
+        $row = $this->db->single();
 
         return $row;
     }

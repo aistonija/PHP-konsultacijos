@@ -1,64 +1,47 @@
 <?php
-/*
-    PDO class
-    Connect to databse 
-    Creates prepared statements
-    Bind values
-    Execute and return result form db
-*/
+// PDO database class
+// Will connect to database, create prepared statements, bind values, return rows and results
+
 class Database
 {
-    // connection variables
     private $host = DB_HOST;
     private $user = DB_USER;
-    private $password = DB_PASS;
-    private $dbName = DB_NAME;
+    private $pass = DB_PASS;
+    private $dbname = DB_NAME;
 
-    // some local properties
-    // we store out connecion
-    // dbh - database handler
+    //database handler
     private $dbh;
     private $stmt;
     private $error;
 
     public function __construct()
     {
-        // set dns
-        $dns = "mysql:host=$this->host;dbname=$this->dbName;";
-
-        // set some connection options
+        // Set dsn
+        $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
         $options = [
             PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            // PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ
         ];
 
-        // create PDO instance 
         try {
-            // if we have erro here
-            // echo 'tyring in db';
-            // connect to db
-            $this->dbh = new PDO($dns, $this->user, $this->password, $options);
+            $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
         } catch (PDOException $e) {
-            // we catch error here
             $this->error = $e->getMessage();
             echo $this->error;
-            // echo 'catching in db';
         }
     }
 
-    // Prepare statments with query
-    // dbh->query('SELECT * FROM posts WHERE email = :email');
+    // Prepare statement with query
     public function query($sql)
     {
-        // prepare sql statment and save it in local private var
         $this->stmt = $this->dbh->prepare($sql);
     }
 
-    // use stm->bind(':email', 'john@jame.com');
+    // Bind the values
     public function bind($param, $value, $type = null)
     {
         if (is_null($type)) {
-            // check what type is $value
             switch (true) {
                 case is_int($value):
                     $type = PDO::PARAM_INT;
@@ -74,46 +57,37 @@ class Database
             }
         }
 
-        // Bind Value 
         $this->stmt->bindValue($param, $value, $type);
     }
 
-
-    // execute prepared and binded stament 
-    // return result
+    //Execute the prepared statement
     public function execute()
     {
         return $this->stmt->execute();
     }
 
-    // Get results as an array 
-    // return db result array
+    // Get result set as array
     public function resultSet()
     {
         $this->execute();
-        // PDO::FETCH_OBJ $result[1]->id
         return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // method to return single row of data
-    public function singleRow()
+    // Get single record as object
+    public function single()
     {
         $this->execute();
-        // PDO::FETCH_OBJ $result[1]->id
         return $this->stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // method to get back number of rows
+    //Row count
     public function rowCount()
     {
         return $this->stmt->rowCount();
     }
 
-    // $name = " ';DROB DATABASE; "
-    // // sql injection
-    // // dbh->query('SELECT * FROM posts WHERE email = :email');
-    // $sql = "INSERT INTO MyGuests (firstname, lastname, email) VALUES ($name, 'Doe', 'john@example.com')";
-    // // use exec() because no results are returned
-    // $conn->exec($sql);
-
+    public function lastInsertedId()
+    {
+        return $this->dbh->lastInsertId();
+    }
 }

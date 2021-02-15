@@ -1,7 +1,6 @@
 <?php
-// main entry point
-require_once '../app/bootstrap.php';
 
+require_once '../app/bootloader.php';
 
-// init core class
-$init = new Core;
+// Init Core libary
+$init = new Core();

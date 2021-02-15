@@ -1,14 +1,7 @@
 <?php
-/*  
- * Users class 
- * Register user 
- * Login user
- * Control Uses behavior and access
-*/
+
 class Users extends Controller
 {
-    private $userModel;
-
     public function __construct()
     {
         $this->userModel = $this->model('User');
@@ -16,88 +9,110 @@ class Users extends Controller
 
     public function register()
     {
-        // echo 'Register in progress';
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // form process in progress
 
-            // sanitize Post Array
+        // Check for POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Process the form
+
+            // Sanitize POST data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            // create data 
+            // Init form
             $data = [
-                'nickname'      => trim($_POST['nickname']),
-                'password'  => trim($_POST['password']),
-                'confirmPassword' => trim($_POST['confirmPassword']),
-                'nicknameErr'      => '',
-                'passwordErr'  => '',
-                'confirmPasswordErr' => '',
+                'first_name' => trim($_POST['first_name']),
+                'last_name' => trim($_POST['last_name']),
+                'email' => trim($_POST['email']),
+                'password' => trim($_POST['password']),
+                'confirm_password' => trim($_POST['confirm_password']),
+
+                'first_name_error' => '',
+                'last_name_error' => '',
+                'email_error' => '',
+                'password_error' => '',
+                'confirm_password_error' => '',
             ];
 
-            // Validate Name 
-            if (empty($data['nickname'])) {
-                // empty field
-                $data['nicknameErr'] = "Please enter Your Nickname";
-            } elseif (!validate_nickname_has_digit($data['nickname'])) {
-                $data['nicknameErr'] = "Nickname must include at least 1 digit!";
+            //Validate First Name
+            if (!validate_field_not_empty($data['first_name'])) {
+                $data['first_name_error'] = 'Please Enter First Name';
+            } elseif (!validate_no_special_symbols($data['first_name'])) {
+                $data['first_name_error'] = 'Make sure your name doesn\'t contain any shizznit symbols';
+            }
+
+            //Validate Last Name
+            if (!validate_field_not_empty($data['last_name'])) {
+                $data['last_name_error'] = 'Please Enter Last Name';
+            } elseif (!validate_no_special_symbols($data['last_name'])) {
+                $data['last_name_error'] = 'Make sure your last name doesn\'t contain any shizznit symbols';
+            }
+
+            // Validate Email
+            if (!validate_field_not_empty($data['email'])) {
+                $data['email_error'] = 'Please Enter Email';
+            } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                $data['email_error'] = 'Please Provide Valid Email';
             } else {
-                // Check if user does not exist
-                if ($this->userModel->findUserByNickname($data['nickname'])) {
-                    $data['nicknameErr'] = 'User with nickname "' . $data['nickname'] . '" already exists';
+                // Check if email exist in db
+                if ($this->userModel->findUserByEmail($data['email'])) {
+                    $data['email_error'] = 'Email is already registered';
                 }
             }
 
-            // Validate Password 
+            // Validate Password
             if (empty($data['password'])) {
-                // empty field
-                $data['passwordErr'] = "Please enter a password";
+                $data['password_error'] = 'Please Enter Password';
             } elseif (!validate_pass_length($data['password'], 4)) {
-                $data['passwordErr'] = "Password must be 4 or more characters";
+                $data['password_error'] = 'Password must be at least 6 characters';
             }
 
-            // Validate confirmPassword 
-            if (empty($data['confirmPassword'])) {
-                // empty field
-                $data['confirmPasswordErr'] = "Please repeat password";
+            // Validate Confirm Password
+            if (empty($data['confirm_password'])) {
+                $data['confirm_password_error'] = 'Please Enter Confirm Password';
             } else {
-                if ($data['confirmPassword'] !== $data['password']) {
-                    $data['confirmPasswordErr'] = "Passwords do not match";
+                if ($data['password'] !== $data['confirm_password']) {
+                    $data['confirm_password_error'] = 'Passwords do not match';
                 }
             }
 
-            // if there is no erros
-            if (empty($data['nicknameErr']) && empty($data['passwordErr']) && empty($data['confirmPasswordErr'])) {
-                // there are no errors; 
+            // Make sure data errors are empty
+            if (empty($data['first_name_error']) && empty($data['last_name_error']) && empty($data['email_error']) && empty($data['password_error']) && empty($data['confirm_password_error'])) {
+                // Validated
+                // Hash the password
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
                 // Call the model function - register user
                 if ($this->userModel->register($data)) {
                     redirect('users/login');
+                } else {
+                    die('SOMETHING WENT WRONG');
                 }
             } else {
-                // load view with errors 
+                // Load view with Erros
                 $this->view('users/register', $data);
             }
         } else {
-            // load form
-            // echo 'load form';
+            // Load the form
 
-            // create data 
+            // init data
             $data = [
-                'nickname'      => '',
-                'password'  => '',
-                'confirmPassword' => '',
-                'nickname'      => '',
-                'passwordErr'  => '',
-                'confirmPasswordErr' => '',
+                'name' => '',
+                'email' => '',
+                'password' => '',
+                'confirm_password' => '',
+                'name_error' => '',
+                'email_error' => '',
+                'password_error' => '',
+                'confirm_password_error' => '',
             ];
 
-            // load view
+            // Load View
             $this->view('users/register', $data);
         }
     }
 
     public function login()
     {
+
         //Check for POST
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Process the form
@@ -107,39 +122,39 @@ class Users extends Controller
 
             // Init form
             $data = [
-                'nickname' => trim($_POST['nickname']),
+                'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
-                'nicknameErr' => '',
-                'passwordErr' => '',
+                'email_error' => '',
+                'password_error' => '',
             ];
 
             // Validate Email
-            if (empty($data['nickname'])) {
-                $data['nicknameErr'] = 'Please Enter Nickname';
+            if (empty($data['email'])) {
+                $data['email_error'] = 'Please Enter Email';
             }
 
             // Validate Password
             if (empty($data['password'])) {
-                $data['passwordErr'] = 'Please Enter Password';
+                $data['password_error'] = 'Please Enter Password';
             }
 
             // Check for user email in database
-            if (!$this->userModel->findUserByNickname($data['nickname'])) {
-                $data['nicknameErr'] = 'User ' . $data['nickname'] . ' not found';
+            if (!$this->userModel->findUserByEmail($data['email'])) {
+                $data['email_error'] = 'User ' . $data['email'] . ' not found';
             }
 
-            // Make sure errors are empty
-            if (empty($data['nicknameErr']) && empty($data['passwordErr'])) {
+            // Make sure data are empty
+            if (empty($data['email_error']) && empty($data['password_error'])) {
                 // Validated
 
                 // Check and set logged in user
-                $loggedInUser = $this->userModel->login($data['nickname'], $data['password']);
+                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
 
                 if ($loggedInUser) {
                     // Create Session variables
                     $this->createUserSession($loggedInUser);
                 } else {
-                    $data['passwordErr'] = 'Password incorrect';
+                    $data['password_error'] = 'Password incorrect';
                     // Load view with Erros
                     $this->view('users/login', $data);
                 }
@@ -152,10 +167,10 @@ class Users extends Controller
 
             // init data
             $data = [
-                'nickname' => '',
+                'email' => '',
                 'password' => '',
-                'nicknameErr' => '',
-                'passwordErr' => '',
+                'email_error' => '',
+                'password_error' => '',
             ];
 
             // Load View
@@ -163,10 +178,22 @@ class Users extends Controller
         }
     }
 
+    public function profile()
+    {
+
+        $data = [
+            'title' => 'This is going to be profile page'
+        ];
+
+        // Load View
+        $this->view('users/profile', $data);
+    }
+
     public function createUserSession($user)
     {
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['nickname'] = $user['nickname'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['name'] = $user['first_name'];
         redirect('index');
     }
 

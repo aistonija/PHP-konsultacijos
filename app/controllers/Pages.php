@@ -1,33 +1,42 @@
 <?php
-// Pages class responsible for controling Pages
+
 class Pages extends Controller
 {
     public function __construct()
     {
-        // echo 'hello form pages controller';
+        $this->pixelModel = $this->model('Pixel');
     }
 
     public function index()
     {
-        // create some data to load into vie
         $data = [
-            'title' => 'Welcome to ' . SITENAME,
+            'title' => 'Pixelotron 3000',
+            'description' => 'Fun and creative way to learn coding and become developer'
         ];
 
-        // load the view
+
         $this->view('pages/index', $data);
     }
 
-    public function about()
+    public function activityLog()
     {
-        // load the view
-        // create some data to load into vie
+        if (!isLoggedIn()) {
+            redirect('index');
+        }
+
+        if ($this->pixelModel->getUserPixelsActivity($_SESSION['user_id'])) {
+            $userActivity = $this->pixelModel->getUserPixelsActivity($_SESSION['user_id']);
+        } else {
+            $emptyEctivity = 'No user activity found';
+        }
+        // init data
         $data = [
-            'title' => 'About - ' . SITENAME,
-            'description' => 'Simple Game to have some coding fun'
+            'title' => 'I\'ll check your history, you perv',
+            'userActivity' => $userActivity ?? [],
+            'emptyActivity' => $emptyEctivity ?? '',
         ];
 
-        // load the view
-        $this->view('pages/about', $data);
+        // Load View
+        $this->view('pages/activityLog', $data);
     }
 }
